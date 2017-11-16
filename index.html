@@ -1,0 +1,68 @@
+<!doctype html>
+<head>
+	<title>CHAENY</title>
+	<script src="./soundV.js"></script>
+	<style>
+		html,body,div,img{margin:0; padding:0;}
+		
+		.circle{ width:200px; height:200px; background:white;
+			position: absolute; left:calc(50% - 100px); top:200px;
+			animation: Moving 8s linear infinite;
+		}
+		@keyframes Moving{
+			0%{ }
+			100%{ transform: rotate(-360deg)}
+		}
+		.circle img{width:100%; height:auto;}
+	</style>
+</head>
+<body>
+	<button id="stopBut">stop</button>
+	<button id="playBut">play</button>
+	<button id="pauseBut">pause</button>&nbsp;&nbsp;&nbsp;
+	
+	
+	<button id="play1">ONE</button>
+	<button id="play2">TWO</button>
+	<input id="audio_file" type="file" accept="audio/*" />
+
+	<div class="circle" id="circle">
+		<img src="chaeny.png" id="cImg">
+		
+	</div>
+
+	<script>
+		var newSound = new SoundBH("MakeTime.mp3",16);
+	
+		(function loop(){ 
+ 
+			var vol = newSound.getGain() / 10; 
+			circle.style.width = vol + "px";
+			circle.style.height = vol + "px";
+			circle.style.borderRadius = vol/2 + "px";
+			circle.style.left = "calc(50% - " + (vol/2) + "px)";
+			circle.style.top = 300 - (vol/2) + "px";
+
+			window.requestAnimationFrame(loop);	
+		})();
+
+		playBut.onclick = function(){ newSound.play();};	
+		stopBut.onclick = function(){ newSound.stop();};
+		pauseBut.onclick = function(){ newSound.pause();};
+		audio_file.onchange = function(){
+		  	newSound.change(URL.createObjectURL(this.files[0]));
+		};
+
+		
+		play1.onclick = function(){
+			cImg.setAttribute("src","chaeny.png");
+			newSound.change("MakeTime.mp3");
+		};
+		
+		play2.onclick = function(){ 
+			cImg.setAttribute("src","chaeny1.png");
+			newSound.change("Lavender.mp3");
+		};
+
+	</script>
+</body>
